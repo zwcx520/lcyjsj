@@ -1,16 +1,828 @@
-<!DOCTYPE html><html lang="zh-CN"><head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>TechShare算机学术分享平台</title> <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <style> :root { --primary-color: #2563eb; --primary-light: #3b82f6; --dark-color: #1e293b; --light-color: #f8fafc; --gray-color: #94a3b8; --card-bg: #ffffff; --shadow: 0 4px 12px rgba(0,0,0,0.05); } * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; } body { background-color: var(--light-color); color: var(--dark-color); line-height: 1.6; } a { text-decoration: none; color: inherit; } ul { list-style: none; } .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; } /* 头部导航 */ header { background-color: var(--card-bg); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; } .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; } .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem; } .logo i { font-size: 1.8rem; } .nav-menu { display: flex; gap: 2rem; } .nav-link { font-weight: 500; transition: color 0.3s; } .nav-link:hover { color: var(--primary-color); } .mobile-toggle { display: none; font-size: 1.5rem; cursor: pointer; } /* 英雄区 */ .hero { padding: 4rem 0; background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); color: white; text-align: center; } .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; } .hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; opacity: 0.9; } .search-box { max-width: 500px; margin: 0 auto; display: flex; position: relative; } .search-input { flex: 1; padding: 1rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; outline: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1); } .search-btn { position: absolute; right: 0; top: 0; height: 100%; padding: 0 1.5rem; background-color: var(--dark-color); color: white; border: none; border-radius: 0 8px 8px 0; cursor: pointer; transition: background 0.3s; } .search-btn:hover { background-color: #334155; } .clear-btn { position: absolute; right: 50px; top: 50%; transform: translateY(-50%); color: var(--gray-color); cursor: pointer; display: none; } .clear-btn:hover { color: var(--dark-color); } /* 分类标签 */ .categories { padding: 2rem 0; } .section-title { font-size: 1.8rem; margin-bottom: 1.5rem; text-align: center; } .category-list { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; } .category-item { padding: 0.8rem 1.5rem; background-color: var(--card-bg); border-radius: 2rem; box-shadow: var(--shadow); cursor: pointer; transition: all 0.3s; } .category-item:hover { background-color: var(--primary-color); color: white; } .category-item.active { background-color: var(--primary-color); color: white; } /* 文章列表 */ .articles { padding: 2rem 0 4rem; } .article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; } /* 文章卡片左右布局 */ .article-card { background-color: var(--card-bg); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; transition: transform 0.3s; display: flex; flex-direction: row; height: 180px; } .article-card:hover { transform: translateY(-5px); } .card-img { width: 40%; height: 100%; object-fit: cover; flex-shrink: 0; } .card-content { width: 60%; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; } .card-tag { display: inline-block; padding: 0.3rem 0.8rem; background-color: var(--primary-light); color: white; font-size: 0.8rem; border-radius: 4px; margin-bottom: 0.5rem; } .card-title { font-size: 1rem; line-height: 1.4; margin-bottom: 0.3rem; } .card-desc { color: var(--gray-color); font-size: 0.85rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 0.5rem; flex-grow: 1; } .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--gray-color); } /* 搜索结果提示 */ .search-result { text-align: center; color: var(--gray-color); padding: 3rem 0; display: none; } .search-result i { font-size: 3rem; margin-bottom: 1rem; color: #e2e8f0; } /* 热门推荐 */ .sidebar { display: none; background-color: var(--card-bg); border-radius: 12px; padding: 1.5rem; box-shadow: var(--shadow); } .hot-title { font-size: 1.2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color); } .hot-item { display: flex; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid #f1f5f9; } .hot-item:last-child { border-bottom: none; } .hot-rank { width: 24px; height: 24px; background-color: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; } .hot-rank.top { background-color: #f59e0b; } .hot-text { flex: 1; } .hot-text p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* 底部 */ footer { background-color: var(--dark-color); color: white; padding: 3rem 0; } .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; } .footer-col { flex: 1; min-width: 200px; } .footer-col h3 { font-size: 1.2rem; margin-bottom: 1.5rem; } .footer-col ul li { margin-bottom: 0.8rem; opacity: 0.8; transition: opacity 0.3s; } .footer-col ul li:hover { opacity: 1; } .footer-col .social { display: flex; gap: 1rem; margin-top: 1rem; } .social a { width: 36px; height: 36px; border-radius: 50%; background-color: #334155; display: flex; align-items: center; justify-content: center; transition: background 0.3s; } .social a:hover { background-color: var(--primary-color); } .copyright { text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #334155; opacity: 0.7; } /* 响应式适配 */ @media (max-width: 768px) { .nav-menu { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background-color: var(--card-bg); flex-direction: column; justify-content: center; align-items: center; gap: 2rem; transition: left 0.3s; z-index: 99; } .nav-menu.active { left: 0; } .mobile-toggle { display: block; } .hero h1 { font-size: 2rem; } .article-grid { grid-template-columns: 1fr; } /* 移动端卡片改回上下布局 */ .article-card { flex-direction: column; height: auto; } .card-img { width: 100%; height: 180px; } .card-content { width: 100%; } } @media (min-width: 992px) { .main-content { display: grid; grid-template-columns: 3fr 1fr; gap: 2rem; } .sidebar { display: block; align-self: flex-start; position: sticky; top: 90px; } } </style></head><body> <!-- 头部导航 --> <header> <div class="container"> <nav class="navbar"> <a href="#" class="logo"> <i class="fas fa-code"></i> <span>TechShare</span> </a> <ul class="nav-menu"> <li><a href="#" class="nav-link">首页</a></li> <li><a href="#" class="nav-link">文章</a></li> <li><a href="#" class="nav-link">教程</a></li> <li><a href="#" class="nav-link">资源</a></li> <li><a href="#" class="nav-link">关于</a></li> </ul> <div class="mobile-toggle" id="mobileToggle"> <i class="fas fa-bars"></i> </div> </nav> </div> </header>
-<!-- 英雄区 --> <section class="hero"> <div class="container"> <div class="search-box"> <input type="text" class="search-input" id="searchInput" placeholder="搜索你感兴趣的关于计算机文章..."> <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button> <i class="fas fa-times clear-btn" id="clearBtn"></i> </div> <h1></h1> <p>~颖~的各种计算机学术分享平台，不论技术大小，基础复杂，以学习为主。</p> </div> </section>
-<!-- 分类标签 --> <section class="categories"> <div class="container"> <h2 class="section-title">分类</h2> <div class="category-list" id="categoryList"> <div class="category-item active" data-category="all">全部</div> </div> </div> </section>
-<!-- 文章与热门推荐 --> <section class="articles"> <div class="container"> <h2 class="section-title">最新文章</h2> <div class="main-content"> <!-- 文章列表 --> <div class="article-grid" id="articleGrid"> <!--- 卡片模板 <div class="article-card" data-category="前端开发"> <img src="https://picsum.photos/seed/1/300/180" alt="文章封面" class="card-img"> <div class="card-content"> <div> <span class="card-tag">前端开发</span> <h3 class="card-title">Vue3 + Vite 从入门到精通实战教程</h3> <p class="card-desc">详细讲解 Vue3 组合式 API 与 Vite 构建工具的使用，从零搭建企业级前端项目。</p> </div> <div class="card-footer"> <span><i class="fas fa-calendar-alt"></i> 未知</span> <span><i class="fas fa-eye"></i> 未知</span> </div> </div> </div> ---> <!-- 卡片 1--> <div class="article-card" data-category="前端开发"> <img src="https://picsum.photos/seed/1/300/180" alt="文章封面" class="card-img"> <div class="card-content"> <div> <span class="card-tag">前端开发</span> <h3 class="card-title">Vue3 + Vite 从入门到精通实战教程</h3> <p class="card-desc">详细讲解 Vue3 组合式 API 与 Vite 构建工具的使用，从零搭建企业级前端项目。</p> </div> <div class="card-footer"> <span><i class="fas fa-calendar-alt"></i> 未知</span> <span><i class="fas fa-eye"></i> 未知</span> </div> </div> </div> </div>
-<!-- 无搜索结果提示 --> <div class="search-result" id="searchResult"> <i class="fas fa-search"></i> <h3>未找到相关文章</h3> <p>试试更换关键词或分类重新搜索~</p> </div>
-<!-- 热门推荐侧边栏 --> <div class="sidebar"> <h3 class="hot-title">热门推荐</h3> <div class="hot-list"> <div class="hot-item"> <div class="hot-rank top">1</div> <div class="hot-text"> <p>2025 年前端技术栈选型指南</p> </div> </div> <div class="hot-item"> <div class="hot-rank top">2</div> <div class="hot-text"> <p>Python 爬虫实战：爬取并分析豆瓣电影数据</p> </div> </div> <div class="hot-item"> <div class="hot-rank top">3</div> <div class="hot-text"> <p>Java 并发编程：深入理解线程池原理</p> </div> </div> <div class="hot-item"> <div class="hot-rank">4</div> <div class="hot-text"> <p>React 性能优化的 8 个实用技巧</p> </div> </div> <div class="hot-item"> <div class="hot-rank">5</div> <div class="hot-text"> <p>Linux 常用命令大全：从入门到精通</p> </div> </div> </div> </div> </div> </div> </section>
-<!-- 底部 --> <footer> <div class="container"> <div class="footer-content"> <div class="footer-col"> <h3>TechShare</h3> <p>专注于计算机学术分享的平台，助力计算机学者学习。</p> <div class="social"> <a href="#"><i class="fab fa-github"></i></a> <a href="#"><i class="fab fa-gitee"></i></a> <a href="#"><i class="fab fa-weixin"></i></a> <a href="#"><i class="fab fa-twitter"></i></a> </div> </div> <div class="footer-col"> <h3>关于我们</h3> <ul> <li><a href="#">平台介绍: 仅作为计算机学习平台，内容和学术可能不全，仅仅作为交流</a></li> <li><a href="#">投稿指南: 发送邮件至1837601513@qq.com</a></li> <li><a href="#">联系方式: 1837601513(QQ)</a></li> <li><a href="#">隐私政策: 本站不会获取用户信息和隐私。</a></li> </ul> </div> </div> <div class="copyright"> <span class="年份检测" id="yearSpan"></span> &copy; TechShare计算机学术分享平台 版权所有 </div> </div> </footer><script>// 获取当前年份并插入标签document.getElementById("yearSpan").innerText = new Date().getFullYear();</script> <script> // DOM元素获取 const mobileToggle = document.getElementById('mobileToggle'); const navMenu = document.querySelector('.nav-menu'); const categoryList = document.getElementById('categoryList'); const categoryItems = document.querySelectorAll('.category-item'); const articleGrid = document.getElementById('articleGrid'); const searchInput = document.getElementById('searchInput'); const searchBtn = document.getElementById('searchBtn'); const clearBtn = document.getElementById('clearBtn'); const searchResult = document.getElementById('searchResult');
-// 移动端导航切换 mobileToggle.addEventListener('click', () => { navMenu.classList.toggle('active'); const icon = mobileToggle.querySelector('i'); icon.classList.toggle('fa-bars'); icon.classList.toggle('fa-times'); });
-// 分类筛选功能 - 每次都重新获取所有卡片，支持新增HTML卡片 categoryItems.forEach(item => { item.addEventListener('click', () => { const category = item.getAttribute('data-category'); // 更新分类激活状态 categoryItems.forEach(i => i.classList.remove('active')); item.classList.add('active'); // 关键：每次筛选都实时获取页面中所有 .article-card const allArticles = document.querySelectorAll('.article-card'); let hasResult = false; allArticles.forEach(article => { const articleCategory = article.getAttribute('data-category'); if (category === 'all' || articleCategory === category) { article.style.display = 'flex'; hasResult = true; } else { article.style.display = 'none'; } }); // 显示/隐藏无结果提示 searchResult.style.display = hasResult ? 'none' : 'block'; }); });
-// 搜索核心功能 - 实时读取页面所有卡片，无需预存数组 function handleSearch() { const keyword = searchInput.value.trim().toLowerCase(); // 显示/隐藏清空按钮 clearBtn.style.display = keyword ? 'block' : 'none'; // 实时获取页面中所有文章卡片 const allArticles = document.querySelectorAll('.article-card'); // 无关键词时显示全部文章 if (!keyword) { allArticles.forEach(article => article.style.display = 'flex'); searchResult.style.display = 'none'; // 重置分类激活状态 categoryItems.forEach(item => { if (item.getAttribute('data-category') === 'all') { item.classList.add('active'); } else { item.classList.remove('active'); } }); return; }
-// 关键词搜索匹配：直接读取卡片内的标题和描述文本 let hasResult = false; allArticles.forEach(article => { // 直接从DOM中获取标题和描述内容 const title = article.querySelector('.card-title').textContent.toLowerCase(); const desc = article.querySelector('.card-desc').textContent.toLowerCase(); const isMatch = title.includes(keyword) || desc.includes(keyword); article.style.display = isMatch ? 'flex' : 'none'; if (isMatch) hasResult = true; });
-// 显示/隐藏无结果提示 searchResult.style.display = hasResult ? 'none' : 'block'; // 搜索时取消分类激活（除"全部"外） categoryItems.forEach(item => { if (item.getAttribute('data-category') !== 'all') { item.classList.remove('active'); } }); }
-// 搜索按钮点击事件 searchBtn.addEventListener('click', handleSearch);
-// 回车搜索 searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSearch(); });
-// 清空搜索框 clearBtn.addEventListener('click', () => { searchInput.value = ''; handleSearch(); });
-// 输入实时搜索 searchInput.addEventListener('input', handleSearch); </script></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>TechShare 计算机学术分享平台</title> 
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"> 
+    <style> 
+        :root {
+            /* 二次元主色调：高饱和蓝紫渐变主色，适配动漫风格 */
+            --primary-color: #7b61ff;
+            --primary-light: #a895ff;
+            --primary-dark: #5a41e6;
+            /* 二次元辅助色：柔和粉、浅青，增加灵动性 */
+            --secondary-pink: #ff86b2;
+            --secondary-cyan: #61dafb;
+            --dark-color: #2d2b55;
+            --light-color: #f9f6ff;
+            --gray-color: #8a88b1;
+            --card-bg: #ffffff;
+            /* 动漫风柔和阴影，比原阴影更通透 */
+            --shadow: 0 6px 18px rgba(123, 97, 255, 0.15);
+            --hover-shadow: 0 8px 24px rgba(123, 97, 255, 0.25);
+        } 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            /* 更圆润的字体，适配二次元清爽感 */
+            font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif; 
+        } 
+        body { 
+            background-color: var(--light-color); 
+            color: var(--dark-color); 
+            line-height: 1.6;
+            /* 轻微背景渐变，增加动漫层次感 */
+            background: linear-gradient(180deg, #f9f6ff 0%, #f0ebff 100%);
+            background-attachment: fixed;
+        } 
+        a { 
+            text-decoration: none; 
+            color: inherit; 
+        } 
+        ul { 
+            list-style: none; 
+        } 
+        .container { 
+            width: 100%; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 1.5rem; 
+        } 
+
+        /* 头部导航 - 二次元清爽悬浮感 */
+        header { 
+            background-color: rgba(255, 255, 255, 0.95); 
+            box-shadow: var(--shadow); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        } 
+        .navbar { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 1rem 0; 
+        } 
+        .logo { 
+            font-size: 1.6rem; 
+            font-weight: 700; 
+            color: var(--primary-color); 
+            display: flex; 
+            align-items: center; 
+            gap: 0.5rem;
+            text-shadow: 0 2px 4px rgba(123,97,255,0.2);
+        } 
+        .logo i { 
+            font-size: 2rem;
+            color: var(--secondary-pink);
+        } 
+        .nav-menu { 
+            display: flex; 
+            gap: 2rem; 
+        } 
+        .nav-link { 
+            font-weight: 500; 
+            transition: all 0.3s;
+            position: relative;
+        } 
+        .nav-link:hover { 
+            color: var(--primary-color);
+        }
+        /* 导航hover下划动画，二次元细节感 */
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-pink);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .mobile-toggle { 
+            display: none; 
+            font-size: 1.6rem; 
+            cursor: pointer;
+            color: var(--primary-color); 
+        } 
+
+        /* 英雄区 - 二次元渐变主视觉，更通透亮眼 */
+        .hero { 
+            padding: 5rem 0; 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-pink), var(--secondary-cyan));
+            background-size: 200% 200%;
+            animation: gradientMove 8s ease infinite;
+            color: white; 
+            text-align: center;
+            border-radius: 0 0 50px 50px;
+            box-shadow: var(--shadow);
+        }
+        /* 渐变流动动画，增加动漫动感 */
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        .hero h1 { 
+            font-size: 2.8rem; 
+            margin-bottom: 1rem;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        } 
+        .hero p { 
+            font-size: 1.2rem; 
+            max-width: 600px; 
+            margin: 0 auto 2.5rem; 
+            opacity: 0.95;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        } 
+        .search-box { 
+            max-width: 550px; 
+            margin: 0 auto; 
+            display: flex; 
+            position: relative;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        } 
+        .search-input { 
+            flex: 1; 
+            padding: 1.1rem 1.5rem; 
+            border: none; 
+            border-radius: 0;
+            font-size: 1rem; 
+            outline: none; 
+        } 
+        .search-btn { 
+            position: absolute; 
+            right: 0; 
+            top: 0; 
+            height: 100%; 
+            padding: 0 1.8rem; 
+            background-color: var(--dark-color); 
+            color: white; 
+            border: none; 
+            border-radius: 0;
+            cursor: pointer; 
+            transition: all 0.3s; 
+        } 
+        .search-btn:hover { 
+            background-color: var(--primary-dark);
+        } 
+        .clear-btn { 
+            position: absolute; 
+            right: 70px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            color: var(--gray-color); 
+            cursor: pointer; 
+            display: none;
+            transition: color 0.3s;
+        } 
+        .clear-btn:hover { 
+            color: var(--primary-color); 
+        } 
+
+        /* 分类标签 - 圆润灵动，hover变色更鲜明 */
+        .categories { 
+            padding: 3rem 0; 
+        } 
+        .section-title { 
+            font-size: 2rem; 
+            margin-bottom: 2rem; 
+            text-align: center;
+            color: var(--dark-color);
+            position: relative;
+        }
+        /* 标题下方二次元装饰线 */
+        .section-title::after {
+            content: "";
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-pink));
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+        .category-list { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 1.2rem; 
+            justify-content: center; 
+        } 
+        .category-item { 
+            padding: 0.9rem 1.8rem; 
+            background-color: var(--card-bg); 
+            border-radius: 50px; 
+            box-shadow: var(--shadow); 
+            cursor: pointer; 
+            transition: all 0.3s;
+            font-weight: 500;
+        } 
+        .category-item:hover { 
+            background-color: var(--primary-color); 
+            color: white;
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-2px);
+        } 
+        .category-item.active { 
+            background-color: var(--primary-color); 
+            color: white;
+            box-shadow: var(--hover-shadow);
+        } 
+
+        /* 文章列表 - 卡片更圆润，hover悬浮感更强 */
+        .articles { 
+            padding: 0 0 5rem; 
+        } 
+        .article-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 2.5rem; 
+        } 
+
+        /* 文章卡片左右布局 - 二次元清爽卡片样式 */
+        .article-card { 
+            background-color: var(--card-bg); 
+            border-radius: 20px; 
+            box-shadow: var(--shadow); 
+            overflow: hidden; 
+            transition: all 0.3s; 
+            display: flex; 
+            flex-direction: row; 
+            height: 190px;
+        } 
+        .article-card:hover { 
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        } 
+        .card-img { 
+            width: 40%; 
+            height: 100%; 
+            object-fit: cover; 
+            flex-shrink: 0;
+            /* 图片圆角，和卡片呼应 */
+            border-radius: 20px 0 0 20px;
+        } 
+        .card-content { 
+            width: 60%; 
+            padding: 1.2rem; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+        } 
+        .card-tag { 
+            display: inline-block; 
+            padding: 0.3rem 0.9rem; 
+            background: linear-gradient(to right, var(--primary-light), var(--secondary-pink));
+            color: white; 
+            font-size: 0.8rem; 
+            border-radius: 6px; 
+            margin-bottom: 0.6rem;
+        } 
+        .card-title { 
+            font-size: 1.05rem; 
+            line-height: 1.5; 
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        } 
+        .card-desc { 
+            color: var(--gray-color); 
+            font-size: 0.85rem; 
+            display: -webkit-box; 
+            -webkit-line-clamp: 2; 
+            -webkit-box-orient: vertical; 
+            overflow: hidden; 
+            margin-bottom: 0.6rem; 
+            flex-grow: 1; 
+        } 
+        .card-footer { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-size: 0.8rem; 
+            color: var(--gray-color); 
+        } 
+
+        /* 搜索结果提示 - 样式优化更柔和 */
+        .search-result { 
+            text-align: center; 
+            color: var(--gray-color); 
+            padding: 4rem 0; 
+            display: none;
+        } 
+        .search-result i { 
+            font-size: 4rem; 
+            margin-bottom: 1.5rem; 
+            color: var(--primary-light);
+            opacity: 0.5;
+        } 
+
+        /* 热门推荐 - 侧边栏更圆润，适配整体风格 */
+        .sidebar { 
+            display: none; 
+            background-color: var(--card-bg); 
+            border-radius: 20px; 
+            padding: 1.8rem; 
+            box-shadow: var(--shadow); 
+        } 
+        .hot-title { 
+            font-size: 1.3rem; 
+            margin-bottom: 1.2rem; 
+            padding-bottom: 0.8rem; 
+            border-bottom: 2px solid var(--primary-light);
+            color: var(--dark-color);
+            font-weight: 600;
+        } 
+        .hot-item { 
+            display: flex; 
+            gap: 1.2rem; 
+            padding: 1rem 0; 
+            border-bottom: 1px solid #f0ebff; 
+            transition: transform 0.2s;
+        }
+        .hot-item:hover{
+            transform: translateX(5px);
+        }
+        .hot-item:last-child { 
+            border-bottom: none; 
+        } 
+        .hot-rank { 
+            width: 28px; 
+            height: 28px; 
+            background-color: var(--primary-color); 
+            color: white; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 0.9rem; 
+            flex-shrink: 0;
+        } 
+        .hot-rank.top { 
+            background-color: var(--secondary-pink);
+        } 
+        .hot-text { 
+            flex: 1; 
+        } 
+        .hot-text p { 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .hot-item:hover .hot-text p{
+            color: var(--primary-color);
+        }
+
+        /* 底部 - 深色系搭配二次元渐变装饰 */
+        footer { 
+            background-color: var(--dark-color); 
+            color: white; 
+            padding: 4rem 0 2rem;
+            border-radius: 50px 50px 0 0;
+            margin-top: 3rem;
+        } 
+        .footer-content { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+            gap: 2.5rem; 
+        } 
+        .footer-col { 
+            flex: 1; 
+            min-width: 200px; 
+        } 
+        .footer-col h3 { 
+            font-size: 1.3rem; 
+            margin-bottom: 1.8rem;
+            color: var(--primary-light);
+        } 
+        .footer-col ul li { 
+            margin-bottom: 1rem; 
+            opacity: 0.8; 
+            transition: all 0.3s; 
+        } 
+        .footer-col ul li:hover { 
+            opacity: 1;
+            transform: translateX(5px);
+        } 
+        .footer-col .social { 
+            display: flex; 
+            gap: 1.2rem; 
+            margin-top: 1.5rem; 
+        } 
+        .social a { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            background-color: rgba(255,255,255,0.1); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.3s; 
+        } 
+        .social a:hover { 
+            background-color: var(--primary-color);
+            transform: rotate(10deg);
+        } 
+        .copyright { 
+            text-align: center; 
+            margin-top: 3rem; 
+            padding-top: 2rem; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            opacity: 0.8; 
+            font-size: 0.9rem;
+        } 
+
+        /* 响应式适配 - 保留原功能，样式同步适配 */
+        @media (max-width: 768px) { 
+            .nav-menu { 
+                position: fixed; 
+                top: 75px; 
+                left: -100%; 
+                width: 100%; 
+                height: calc(100vh - 75px); 
+                background-color: rgba(255,255,255,0.98); 
+                flex-direction: column; 
+                justify-content: center; 
+                align-items: center; 
+                gap: 2.5rem; 
+                transition: left 0.3s; 
+                z-index: 99;
+                backdrop-filter: blur(5px);
+            } 
+            .nav-menu.active { 
+                left: 0; 
+            } 
+            .mobile-toggle { 
+                display: block; 
+            } 
+            .hero h1 { 
+                font-size: 2.2rem; 
+            }
+            .hero{
+                border-radius: 0 0 30px 30px;
+            }
+            .article-grid { 
+                grid-template-columns: 1fr; 
+            } 
+            /* 移动端卡片改回上下布局 */ 
+            .article-card { 
+                flex-direction: column; 
+                height: auto; 
+            } 
+            .card-img { 
+                width: 100%; 
+                height: 200px;
+                border-radius: 20px 20px 0 0;
+            } 
+            .card-content { 
+                width: 100%; 
+            } 
+        } 
+        @media (min-width: 992px) { 
+            .main-content { 
+                display: grid; 
+                grid-template-columns: 3fr 1fr; 
+                gap: 2.5rem; 
+            } 
+            .sidebar { 
+                display: block; 
+                align-self: flex-start; 
+                position: sticky; 
+                top: 100px; 
+            } 
+        } 
+    </style>
+</head>
+<body> 
+    <!-- 头部导航 --> 
+    <header> 
+        <div class="container"> 
+            <nav class="navbar"> 
+                <a href="#" class="logo"> 
+                    <i class="fas fa-code"></i> 
+                    <span>TechShare</span> 
+                </a> 
+                <ul class="nav-menu"> 
+                    <li><a href="#" class="nav-link">首页</a></li> 
+                    <li><a href="#" class="nav-link">文章</a></li> 
+                    <li><a href="#" class="nav-link">教程</a></li> 
+                    <li><a href="#" class="nav-link">资源</a></li> 
+                    <li><a href="#" class="nav-link">关于</a></li> 
+                </ul> 
+                <div class="mobile-toggle" id="mobileToggle"> 
+                    <i class="fas fa-bars"></i> 
+                </div> 
+            </nav> 
+        </div> 
+    </header>
+
+    <!-- 英雄区 --> 
+    <section class="hero"> 
+        <div class="container">
+            <h1>TechShare 计算机学术分享平台</h1>
+            <p>~颖~的各种计算机学术分享平台，不论技术大小，基础复杂，以学习为主。</p>
+            <div class="search-box"> 
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索你感兴趣的关于计算机文章..."> 
+                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button> 
+                <i class="fas fa-times clear-btn" id="clearBtn"></i> 
+            </div> 
+        </div> 
+    </section>
+
+    <!-- 分类标签 --> 
+    <section class="categories"> 
+        <div class="container"> 
+            <h2 class="section-title">分类</h2> 
+            <div class="category-list" id="categoryList"> 
+                <div class="category-item active" data-category="all">全部</div>
+                <div class="category-item" data-category="前端开发">前端开发</div>
+                <div class="category-item" data-category="后端开发">后端开发</div>
+                <div class="category-item" data-category="人工智能">人工智能</div>
+                <div class="category-item" data-category="运维部署">运维部署</div>
+                <div class="category-item" data-category="工具教程">工具教程</div>
+            </div> 
+        </div> 
+    </section>
+
+    <!-- 文章与热门推荐 --> 
+    <section class="articles"> 
+        <div class="container"> 
+            <h2 class="section-title">最新文章</h2> 
+            <div class="main-content"> 
+                <!-- 文章列表 --> 
+                <div class="article-grid" id="articleGrid"> 
+                    <!-- 卡片 1--> 
+                    <div class="article-card" data-category="前端开发"> 
+                        <img src="https://picsum.photos/seed/vue/300/180" alt="文章封面" class="card-img"> 
+                        <div class="card-content"> 
+                            <div> 
+                                <span class="card-tag">前端开发</span> 
+                                <h3 class="card-title">Vue3 + Vite 从入门到精通实战教程</h3> 
+                                <p class="card-desc">详细讲解 Vue3 组合式 API 与 Vite 构建工具的使用，从零搭建企业级前端项目。</p> 
+                            </div> 
+                            <div class="card-footer"> 
+                                <span><i class="fas fa-calendar-alt"></i> 2025-12-23</span> 
+                                <span><i class="fas fa-eye"></i> 1289</span> 
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- 卡片 2--> 
+                    <div class="article-card" data-category="后端开发"> 
+                        <img src="https://picsum.photos/seed/java/300/180" alt="文章封面" class="card-img"> 
+                        <div class="card-content"> 
+                            <div> 
+                                <span class="card-tag">后端开发</span> 
+                                <h3 class="card-title">Java 并发编程：深入理解线程池原理</h3> 
+                                <p class="card-desc">全面解析线程池的核心参数、工作原理及实战应用，解决高并发场景下的性能问题。</p> 
+                            </div> 
+                            <div class="card-footer"> 
+                                <span><i class="fas fa-calendar-alt"></i> 2025-12-22</span> 
+                                <span><i class="fas fa-eye"></i> 965</span> 
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- 卡片 3--> 
+                    <div class="article-card" data-category="人工智能"> 
+                        <img src="https://picsum.photos/seed/ai/300/180" alt="文章封面" class="card-img"> 
+                        <div class="card-content"> 
+                            <div> 
+                                <span class="card-tag">人工智能</span> 
+                                <h3 class="card-title">Python 爬虫实战：爬取并分析豆瓣电影数据</h3> 
+                                <p class="card-desc">使用Python requests+BeautifulSoup爬取数据，结合Pandas进行数据清洗与可视化分析。</p> 
+                            </div> 
+                            <div class="card-footer"> 
+                                <span><i class="fas fa-calendar-alt"></i> 2025-12-20</span> 
+                                <span><i class="fas fa-eye"></i> 1560</span> 
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- 卡片 4--> 
+                    <div class="article-card" data-category="运维部署"> 
+                        <img src="https://picsum.photos/seed/linux/300/180" alt="文章封面" class="card-img"> 
+                        <div class="card-content"> 
+                            <div> 
+                                <span class="card-tag">运维部署</span> 
+                                <h3 class="card-title">Linux 常用命令大全：从入门到精通</h3> 
+                                <p class="card-desc">整理日常运维高频使用命令，包含文件操作、权限管理、进程监控等核心场景实操。</p> 
+                            </div> 
+                            <div class="card-footer"> 
+                                <span><i class="fas fa-calendar-alt"></i> 2025-12-18</span> 
+                                <span><i class="fas fa-eye"></i> 2132</span> 
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- 卡片 5--> 
+                    <div class="article-card" data-category="工具教程"> 
+                        <img src="https://picsum.photos/seed/git/300/180" alt="文章封面" class="card-img"> 
+                        <div class="card-content"> 
+                            <div> 
+                                <span class="card-tag">工具教程</span> 
+                                <h3 class="card-title">Git 进阶技巧：分支管理与协同开发实战</h3> 
+                                <p class="card-desc">详解Git分支创建、合并、冲突解决，适配多人协同开发的高效工作流搭建。</p> 
+                            </div> 
+                            <div class="card-footer"> 
+                                <span><i class="fas fa-calendar-alt"></i> 2025-12-15</span> 
+                                <span><i class="fas fa-eye"></i> 897</span> 
+                            </div> 
+                        </div> 
+                    </div>
+                </div>
+
+                <!-- 无搜索结果提示 --> 
+                <div class="search-result" id="searchResult"> 
+                    <i class="fas fa-search"></i> 
+                    <h3>未找到相关文章</h3> 
+                    <p>试试更换关键词或分类重新搜索~</p> 
+                </div>
+
+                <!-- 热门推荐侧边栏 --> 
+                <div class="sidebar"> 
+                    <h3 class="hot-title">热门推荐</h3> 
+                    <div class="hot-list"> 
+                        <div class="hot-item"> 
+                            <div class="hot-rank top">1</div> 
+                            <div class="hot-text"> 
+                                <p>2025 年前端技术栈选型指南</p> 
+                            </div> 
+                        </div> 
+                        <div class="hot-item"> 
+                            <div class="hot-rank top">2</div> 
+                            <div class="hot-text"> 
+                                <p>Python 爬虫实战：爬取并分析豆瓣电影数据</p> 
+                            </div> 
+                        </div> 
+                        <div class="hot-item"> 
+                            <div class="hot-rank top">3</div> 
+                            <div class="hot-text"> 
+                                <p>Java 并发编程：深入理解线程池原理</p> 
+                            </div> 
+                        </div> 
+                        <div class="hot-item"> 
+                            <div class="hot-rank">4</div> 
+                            <div class="hot-text"> 
+                                <p>React 性能优化的 8 个实用技巧</p> 
+                            </div> 
+                        </div> 
+                        <div class="hot-item"> 
+                            <div class="hot-rank">5</div> 
+                            <div class="hot-text"> 
+                                <p>Linux 常用命令大全：从入门到精通</p> 
+                            </div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+    <!-- 底部 --> 
+    <footer> 
+        <div class="container"> 
+            <div class="footer-content"> 
+                <div class="footer-col"> 
+                    <h3>TechShare</h3> 
+                    <p>专注于计算机学术分享的平台，助力计算机学者学习。</p> 
+                    <div class="social"> 
+                        <a href="#"><i class="fab fa-github"></i></a> 
+                        <a href="#"><i class="fab fa-gitee"></i></a> 
+                        <a href="#"><i class="fab fa-weixin"></i></a> 
+                        <a href="#"><i class="fab fa-twitter"></i></a> 
+                    </div> 
+                </div> 
+                <div class="footer-col"> 
+                    <h3>关于我们</h3> 
+                    <ul> 
+                        <li><a href="#">平台介绍: 仅作为计算机学习平台，内容和学术可能不全，仅仅作为交流</a></li> 
+                        <li><a href="#">投稿指南: 发送邮件至1837601513@qq.com</a></li> 
+                        <li><a href="#">联系方式: 1837601513(QQ)</a></li> 
+                        <li><a href="#">隐私政策: 本站不会获取用户信息和隐私。</a></li> 
+                    </ul> 
+                </div> 
+            </div> 
+            <div class="copyright"> 
+                <span class="年份检测" id="yearSpan"></span> &copy; TechShare计算机学术分享平台 版权所有 
+            </div> 
+        </div> 
+    </footer>
+
+<script>
+// 获取当前年份并插入标签
+document.getElementById("yearSpan").innerText = new Date().getFullYear();
+</script> 
+<script> 
+    // DOM元素获取 
+    const mobileToggle = document.getElementById('mobileToggle'); 
+    const navMenu = document.querySelector('.nav-menu'); 
+    const categoryList = document.getElementById('categoryList'); 
+    const categoryItems = document.querySelectorAll('.category-item'); 
+    const articleGrid = document.getElementById('articleGrid'); 
+    const searchInput = document.getElementById('searchInput'); 
+    const searchBtn = document.getElementById('searchBtn'); 
+    const clearBtn = document.getElementById('clearBtn'); 
+    const searchResult = document.getElementById('searchResult');
+
+    // 移动端导航切换 
+    mobileToggle.addEventListener('click', () => { 
+        navMenu.classList.toggle('active'); 
+        const icon = mobileToggle.querySelector('i'); 
+        icon.classList.toggle('fa-bars'); 
+        icon.classList.toggle('fa-times'); 
+    }); 
+
+    // 分类筛选功能 - 每次都重新获取所有卡片，支持新增HTML卡片 
+    categoryItems.forEach(item => { 
+        item.addEventListener('click', () => { 
+            const category = item.getAttribute('data-category'); 
+            // 更新分类激活状态 
+            categoryItems.forEach(i => i.classList.remove('active')); 
+            item.classList.add('active'); 
+            // 关键：每次筛选都实时获取页面中所有 .article-card 
+            const allArticles = document.querySelectorAll('.article-card'); 
+            let hasResult = false; 
+            allArticles.forEach(article => { 
+                const articleCategory = article.getAttribute('data-category'); 
+                if (category === 'all' || articleCategory === category) { 
+                    article.style.display = 'flex'; 
+                    hasResult = true; 
+                } else { 
+                    article.style.display = 'none'; 
+                } 
+            }); 
+            // 显示/隐藏无结果提示 
+            searchResult.style.display = hasResult ? 'none' : 'block'; 
+        }); 
+    }); 
+
+    // 搜索核心功能 - 实时读取页面所有卡片，无需预存数组 
+    function handleSearch() { 
+        const keyword = searchInput.value.trim().toLowerCase(); 
+        // 显示/隐藏清空按钮 
+        clearBtn.style.display = keyword ? 'block' : 'none'; 
+        // 实时获取页面中所有文章卡片 
+        const allArticles = document.querySelectorAll('.article-card'); 
+        // 无关键词时显示全部文章 
+        if (!keyword) { 
+            allArticles.forEach(article => article.style.display = 'flex'); 
+            searchResult.style.display = 'none'; 
+            // 重置分类激活状态 
+            categoryItems.forEach(item => { 
+                if (item.getAttribute('data-category') === 'all') { 
+                    item.classList.add('active'); 
+                } else { 
+                    item.classList.remove('active'); 
+                } 
+            }); 
+            return; 
+        }
+
+        // 关键词搜索匹配：直接读取卡片内的标题和描述文本 
+        let hasResult = false; 
+        allArticles.forEach(article => { 
+            // 直接从DOM中获取标题和描述内容 
+            const title = article.querySelector('.card-title').textContent.toLowerCase(); 
+            const desc = article.querySelector('.card-desc').textContent.toLowerCase(); 
+            const isMatch = title.includes(keyword) || desc.includes(keyword); 
+            article.style.display = isMatch ? 'flex' : 'none'; 
+            if (isMatch) hasResult = true; 
+        });
+
+        // 显示/隐藏无结果提示 
+        searchResult.style.display = hasResult ? 'none' : 'block'; 
+        // 搜索时取消分类激活（除"全部"外） 
+        categoryItems.forEach(item => { 
+            if (item.getAttribute('data-category') !== 'all') { 
+                item.classList.remove('active'); 
+            } 
+        }); 
+    }
+
+    // 搜索按钮点击事件 
+    searchBtn.addEventListener('click', handleSearch); 
+
+    // 回车搜索 
+    searchInput.addEventListener('keydown', (e) => { 
+        if (e.key === 'Enter') handleSearch(); 
+    }); 
+
+    // 清空搜索框 
+    clearBtn.addEventListener('click', () => { 
+        searchInput.value = ''; 
+        handleSearch(); 
+    }); 
+
+    // 输入实时搜索 
+    searchInput.addEventListener('input', handleSearch); 
+</script>
+</body>
+</html>
